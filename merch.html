@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Merch | Love Banana</title>
+</head>
+
+<body>
+
+    <!-- Return Home Logo - Top Right -->
+    <a href="index.html" class="return-home-link">
+        <img src="images/returnhomguy2.png" alt="Return Home" class="return-home-logo">
+    </a>
+
+    <!-- Header Navigation -->
+    <div class="header-container">
+        <nav class="nav-grid">
+            <a href="merch.html" class="nav-item">
+                <img src="images/merch.png" alt="Merch">
+            </a>
+            <a href="shows.html" class="nav-item">
+                <img src="images/shows.png" alt="Shows">
+            </a>
+            <a href="links.html" class="nav-item">
+                <img src="images/links.png" alt="Links">
+            </a>
+            <a href="gallery.html" class="nav-item">
+                <img src="images/gallery.png" alt="Gallery">
+            </a>
+        </nav>
+    </div>
+
+    <!-- Merch Container - Grid Style -->
+    <div class="merch-container">
+        <p class="gallery-welcome">merch for sale - click to view</p>
+
+        <div class="merch-grid">
+            <!-- T-Shirt Product -->
+            <a href="product-tshirt.html" class="merch-item merch-clickable">
+                <img src="images/T-shirt-main Thumbnail-white-on-brown.png" alt="Love Banana T-Shirt" class="merch-img">
+                <h2 class="merch-title">t - shirt</h2>
+                <p class="merch-desc">gilden heavy cotton (screenprinted)</p>
+                <p class="merch-price">$20 aud</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox(event)">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+
+            <div class="lightbox-main">
+                <button class="lightbox-nav lightbox-prev" onclick="prevImage()">&lt;</button>
+                <img id="lightbox-image" src="" alt="Product Image" class="lightbox-image">
+                <button class="lightbox-nav lightbox-next" onclick="nextImage()">&gt;</button>
+            </div>
+
+            <div class="lightbox-thumbnails" id="lightbox-thumbnails">
+                <!-- Thumbnails will be inserted by JavaScript -->
+            </div>
+
+            <div class="lightbox-info">
+                <h2 id="lightbox-title">t - shirt</h2>
+                <p id="lightbox-desc">gilden heavy cotton (screenprinted)</p>
+                <p id="lightbox-price">$20 aud</p>
+                <a href="#" class="buy-link" id="lightbox-buy">BUY NOW</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data with images
+        const products = {
+            tshirt: {
+                title: 't - shirt',
+                desc: 'gilden heavy cotton (screenprinted)',
+                price: '$20 aud',
+                buyLink: '#',
+                images: [
+                    'images/T-shirt main Thumbnail.png',
+                    'images/T-shirt Brown Variation #1.png',
+                    'images/T-shirt variation #2.png',
+                    'images/T-shirt Variation #3.png'
+                ]
+            }
+        };
+
+        let currentProduct = null;
+        let currentImageIndex = 0;
+
+        function openLightbox(productId) {
+            currentProduct = products[productId];
+            currentImageIndex = 0;
+
+            const lightbox = document.getElementById('lightbox');
+            const image = document.getElementById('lightbox-image');
+            const title = document.getElementById('lightbox-title');
+            const desc = document.getElementById('lightbox-desc');
+            const price = document.getElementById('lightbox-price');
+            const buyLink = document.getElementById('lightbox-buy');
+            const thumbnailsContainer = document.getElementById('lightbox-thumbnails');
+
+            // Set product info
+            title.textContent = currentProduct.title;
+            desc.textContent = currentProduct.desc;
+            price.textContent = currentProduct.price;
+            buyLink.href = currentProduct.buyLink;
+
+            // Set main image
+            image.src = currentProduct.images[0];
+
+            // Create thumbnails
+            thumbnailsContainer.innerHTML = '';
+            currentProduct.images.forEach((imgSrc, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgSrc;
+                thumb.alt = 'Variation ' + (index + 1);
+                thumb.className = 'lightbox-thumb' + (index === 0 ? ' active' : '');
+                thumb.onclick = () => goToImage(index);
+                thumbnailsContainer.appendChild(thumb);
+            });
+
+            // Show lightbox
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(event) {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function goToImage(index) {
+            currentImageIndex = index;
+            updateImage();
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentProduct.images.length) % currentProduct.images.length;
+            updateImage();
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentProduct.images.length;
+            updateImage();
+        }
+
+        function updateImage() {
+            const image = document.getElementById('lightbox-image');
+            image.src = currentProduct.images[currentImageIndex];
+
+            // Update thumbnail active state
+            const thumbs = document.querySelectorAll('.lightbox-thumb');
+            thumbs.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentImageIndex);
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        });
+    </script>
+
+</body>
+
+</html>

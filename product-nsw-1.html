@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>New Strangulation Warnings #1 | Love Banana</title>
+</head>
+
+<body>
+
+    <!-- Return Home Logo -->
+    <a href="index.html" class="return-home-link">
+        <img src="images/returnhomguy2.png" alt="Return Home" class="return-home-logo">
+    </a>
+
+    <!-- Header Navigation -->
+    <div class="header-container">
+        <nav class="nav-grid">
+            <a href="merch.html" class="nav-item">
+                <img src="images/merch.png" alt="Merch">
+            </a>
+            <a href="shows.html" class="nav-item">
+                <img src="images/shows.png" alt="Shows">
+            </a>
+            <a href="links.html" class="nav-item">
+                <img src="images/links.png" alt="Links">
+            </a>
+            <a href="gallery.html" class="nav-item">
+                <img src="images/gallery.png" alt="Gallery">
+            </a>
+        </nav>
+    </div>
+
+    <!-- Product Page Container -->
+    <div class="product-page">
+
+        <!-- LEFT COLUMN: Product Details & Visuals -->
+        <div class="product-left-bordered" style="padding-top: 0;">
+            <h1 class="product-title" style="margin-top: 0;">new strangulation warnings #1</h1>
+            <p class="product-subtitle">high quality digital print</p>
+
+            <!-- Main Image -->
+            <img id="main-product-image" src="images/new%20strangulation%20warnings%20%231.png" alt="NSW #1 Main"
+                class="product-main-img">
+
+            <!-- Thumbnails -->
+            <div class="lightbox-thumbnails">
+                <img src="images/new%20strangulation%20warnings%20%231.png" class="product-thumb active" alt="Main">
+            </div>
+
+            <div class="product-description">
+                <p>Digital print of 'New Strangulation Warnings #1'.</p>
+                <p>Available in A5 size.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Secure Checkout -->
+        <div class="product-right">
+
+            <div class="checkout-form-container" style="margin-top: 0;">
+                <p class="merch-price" id="price-display" style="margin-top: 0;">$20.00 AUD</p>
+
+                <form id="payment-form">
+
+                    <!-- Options -->
+                    <div class="form-group">
+                        <label for="size">Size:</label>
+                        <select id="size" name="size" required>
+                            <option value="A5">A5 Print ($20.00)</option>
+                        </select>
+                    </div>
+
+                    <hr style="border: 1px solid black; margin: 20px 0;">
+
+                    <!-- Shipping Details -->
+                    <div class="shipping-section">
+                        <p class="shipping-prompt">Enter details for shipping:</p>
+
+                        <div id="shipping-form">
+                            <input type="text" id="name" placeholder="Full Name" required>
+                            <input type="email" id="email" placeholder="Email Address" required>
+                            <input type="text" id="address" placeholder="Street Address" required>
+                            <input type="text" id="city" placeholder="City / Suburb" required>
+                            <input type="text" id="postcode" placeholder="Postal / Zip Code" required>
+
+                            <select id="country" onchange="calculateTotal()" required>
+                                <option value="" disabled selected>Select Country</option>
+                                <option value="AU">Australia ($10.00)</option>
+                                <option value="INT">International ($25.00)</option>
+                            </select>
+                        </div>
+
+                        <div class="total-price">
+                            Total: <span id="total-display">$20.00 AUD</span>
+                        </div>
+
+                        <button type="submit" class="buy-button">Proceed to Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pricing Logic
+        const basePrice = 20.00;
+
+        function calculateTotal() {
+            const country = document.getElementById('country').value;
+            let shippingCost = 0;
+
+            if (country === 'AU') { shippingCost = 10.00; }
+            else if (country === 'INT') { shippingCost = 25.00; }
+
+            const total = basePrice + shippingCost;
+            document.getElementById('total-display').textContent = '$' + total.toFixed(2) + ' AUD';
+        }
+
+        // Stripe Checkout Placeholder
+        const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const size = document.getElementById('size').value;
+            const country = document.getElementById('country').value;
+
+            if (!country) {
+                alert("Please select a shipping country.");
+                return;
+            }
+
+            alert(`Redirecting to Secure Checkout...\n\nItem: New Strangulation Warnings #1 (${size})\nPrice: $20.00\nShipping to: ${country}\nTotal: ${document.getElementById('total-display').textContent}`);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,940 @@
+/* 1. Global Setup */
+body {
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+}
+
+/* Return Home Logo - Top Right for sub-pages */
+.return-home-link {
+    position: fixed;
+    top: 20px;
+    right: 60px;
+    z-index: 100;
+}
+
+.return-home-logo {
+    width: 120px;
+    height: auto;
+}
+
+/* 2. Header Navigation */
+.header-container {
+    width: 100%;
+    margin-top: 10px;
+    z-index: 10;
+}
+
+.nav-grid {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    /* Gap is 0 so they look like one continuous piece, 
+       but you can add gap: 10px if you want space between them */
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.nav-item {
+    display: block;
+    flex: 1;
+    /* Each item takes equal width */
+    min-width: 150px;
+    /* Minimum width before wrapping on tiny screens */
+    max-width: 250px;
+    /* Max width to prevent them getting huge */
+}
+
+.nav-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 0;
+}
+
+/* Optional: Add hover effect to hint at interactivity */
+.nav-item:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+/* Align navigation items to match Gallery baseline */
+.nav-item img[alt="Merch"] {
+    transform: translateY(4px);
+}
+
+.nav-item img[alt="Shows"] {
+    transform: translateY(6px);
+}
+
+.nav-item img[alt="Links"] {
+    transform: scale(0.85) translateY(10px);
+}
+
+/* 3. Home Page Video */
+.video-hero-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -160px;
+}
+
+.landing-video {
+    width: 100%;
+    max-width: 1400px;
+    height: auto;
+}
+
+/* 4. Links & Video Diary Styling */
+.links-wrapper {
+    margin-top: 40px;
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.contact-text {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.email-link {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;
+}
+
+.video-container {
+    width: 100%;
+    margin-bottom: 40px;
+    background: black;
+}
+
+.links-video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.social-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+}
+
+.social-button {
+    display: block;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+    padding: 15px 20px;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.social-button:hover {
+    background-color: black;
+    color: white;
+}
+
+.spotify-embed {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Lightbox Modal - Bandcamp Style */
+.lightbox-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-overlay.active {
+    display: flex;
+}
+
+.lightbox-content {
+    background: white;
+    border: 2px solid black;
+    padding: 30px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: center;
+    position: relative;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.lightbox-close:hover {
+    opacity: 0.6;
+}
+
+.lightbox-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.lightbox-image {
+    max-width: 500px;
+    max-height: 500px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.lightbox-nav {
+    background: white;
+    border: 2px solid black;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    transition: all 0.2s;
+}
+
+.lightbox-nav:hover {
+    background: black;
+    color: white;
+}
+
+.lightbox-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.lightbox-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.lightbox-thumb:hover {
+    border-color: #666;
+}
+
+.lightbox-thumb.active {
+    border-color: black;
+}
+
+.lightbox-info {
+    text-align: center;
+}
+
+.lightbox-info h2 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    text-decoration: underline;
+}
+
+.lightbox-info p {
+    margin: 5px 0;
+}
+
+/* Make merch items clickable */
+.merch-clickable {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.merch-clickable:hover {
+    opacity: 0.8;
+}
+
+/* 5. Shows Page Styling */
+.shows-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    /* Centered without border constraint of container */
+    margin-top: 0;
+    padding: 30px 0;
+    /* Remove side padding to use full width */
+    margin-bottom: 60px;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    text-decoration: underline;
+    margin-bottom: 30px;
+}
+
+/* Feature Card (Bandsintown Style) */
+.show-card.featured-card {
+    display: flex;
+    border: 3px solid black;
+    background: white;
+    margin-bottom: 40px;
+}
+
+.featured-image-container {
+    flex: 1;
+    border-right: 3px solid black;
+    max-width: 400px;
+}
+
+.featured-show-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.featured-details {
+    flex: 2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.show-title {
+    font-size: 2rem;
+    margin: 0 0 30px 0;
+    line-height: 1.2;
+}
+
+.show-info-row {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.show-date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    padding: 10px 20px;
+    min-width: 80px;
+}
+
+.show-date-block .month {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.show-date-block .day {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.show-date-block .year {
+    font-size: 1rem;
+}
+
+.show-location-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.venue-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.location-name {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.time {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    color: #555;
+}
+
+/* Buttons */
+.ticket-button {
+    background: black;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid black;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.ticket-button:hover {
+    background: white;
+    color: black;
+}
+
+.ticket-button.large {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    align-self: flex-start;
+}
+
+.ticket-button.small {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+}
+
+/* List View */
+.shows-list {
+    border-top: 3px solid black;
+}
+
+.show-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid black;
+}
+
+.show-date-simple {
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 150px;
+}
+
+.show-venue-simple {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.show-venue-simple .venue {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.show-venue-simple .loc {
+    font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .show-card.featured-card {
+        flex-direction: column;
+    }
+
+    .featured-image-container {
+        border-right: none;
+        border-bottom: 3px solid black;
+        max-width: 100%;
+        height: 250px;
+        /* Limit height on mobile */
+    }
+
+    .featured-details {
+        padding: 20px;
+    }
+
+    .show-title {
+        font-size: 1.5rem;
+    }
+
+    .show-info-row {
+        flex-direction: column;
+        /* Stack date and venue */
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .ticket-button.large {
+        width: 100%;
+    }
+
+    /* List Items Mobile */
+    .show-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .show-action {
+        align-self: flex-start;
+        width: 100%;
+    }
+
+    .ticket-button.small {
+        display: block;
+        width: 100%;
+    }
+}
+
+/* 6. Gallery Page Styling (Redesigned) */
+.gallery-container {
+    width: 90%;
+    max-width: 800px;
+    /* Match video container width basically */
+    margin: 0 auto;
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+.gallery-welcome {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.gallery-vertical-list {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    /* Big space between artworks */
+}
+
+.gallery-item-vertical {
+    border-bottom: 1px solid black;
+    /* Divider, optional */
+    padding-bottom: 60px;
+}
+
+.gallery-item-vertical:last-child {
+    border-bottom: none;
+}
+
+/* Silver Frame Implementation */
+.gallery-img-link {
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+    /* Removed pseudo-element overlay method */
+}
+
+.gallery-img-large {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    /* Silver Frame Border */
+    border: 50px solid transparent;
+    /* Space for the frame */
+    border-image-source: url('images/silver-frame.png');
+    border-image-slice: 15% fill;
+    /* Slices the frame, 'fill' keeps center if needed (usually typically not for frames on images unless transparent center) */
+    border-image-repeat: stretch;
+    /* Morphs/Stretches the sides */
+    box-sizing: border-box;
+    /* Includes border in the element's total width */
+}
+
+.gallery-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gallery-title-large {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* 8. Merch Page Styling */
+.merch-container {
+    width: 90%;
+    max-width: 1100px;
+    border: 2px solid black;
+    margin-top: 0;
+    padding: 30px 40px;
+    margin-bottom: 60px;
+}
+
+.merch-heading {
+    font-size: 2rem;
+    text-decoration: underline;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.merch-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: flex-start;
+    /* Aligned to left */
+}
+
+.merch-item {
+    width: 300px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.merch-image-box {
+    border: 2px solid black;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.merch-img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    display: block;
+}
+
+.merch-title {
+    font-size: 1.3rem;
+    text-decoration: underline;
+    margin: 0 0 5px 0;
+    font-weight: normal;
+}
+
+.merch-desc {
+    font-size: 0.9rem;
+    margin: 0 0 3px 0;
+}
+
+.merch-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+.buy-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: white;
+    background-color: black;
+    padding: 8px 20px;
+    text-decoration: none;
+    border: 2px solid black;
+}
+
+.buy-link:hover {
+    background-color: white;
+    color: black;
+}
+
+.gallery-price {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.product-page {
+    width: 90%;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 30px 40px;
+    display: flex;
+    gap: 40px;
+}
+
+.product-left-bordered {
+    flex: 1;
+    border: 2px solid black;
+    padding: 25px 30px;
+}
+
+.product-left {
+    flex: 1;
+}
+
+.product-title {
+    font-size: 2rem;
+    font-weight: normal;
+    text-decoration: underline;
+    margin: 0 0 5px 0;
+}
+
+.product-subtitle {
+    font-size: 0.9rem;
+    margin: 0 0 20px 0;
+}
+
+.product-main-img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.product-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.product-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-logo {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 40px;
+}
+
+.home-logo {
+    width: 120px;
+    height: auto;
+}
+
+.shipping-section {
+    margin-top: auto;
+}
+
+.shipping-prompt {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+#shipping-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#shipping-form input {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    padding: 10px;
+    border: 2px solid black;
+    background: white;
+}
+
+.total-price {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.buy-button {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 30px;
+    background: black;
+    color: white;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.buy-button:hover {
+    background: white;
+    color: black;
+}
+
+/* Shipping & Checkout */
+.checkout-form-container {
+    margin-top: auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group select {
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    border: 2px solid black;
+    font-size: 1rem;
+}
+
+/* Product Thumbs for Page */
+.product-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.product-thumb:hover {
+    border-color: #666;
+}
+
+.product-thumb.active {
+    border-color: black;
+}
+
+/* 9. Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+
+    /* Navigation */
+    .nav-grid {
+        gap: 5px;
+    }
+
+    .nav-item {
+        min-width: 120px;
+        max-width: 200px;
+    }
+
+    /* Return home logo */
+    .return-home-logo {
+        width: 80px;
+    }
+
+    /* Gallery */
+    .gallery-container {
+        padding: 20px;
+    }
+
+    .gallery-grid {
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .gallery-item {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+    }
+
+    /* Merch */
+    .merch-container {
+        padding: 20px;
+    }
+
+    .merch-grid {
+        gap: 30px;
+    }
+
+    /* Shows */
+    .shows-container {
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
+
+    .shows-table td {
+        padding: 15px 5px;
+        font-size: 0.9rem;
+    }
+
+    /* Links */
+    .social-links {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Product page */
+    .product-page {
+        flex-direction: column;
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    /* Navigation stacks on very small screens */
+    .nav-item {
+        min-width: 100px;
+    }
+
+    .return-home-logo {
+        width: 60px;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Typography */
+    .page-title {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+
+    .contact-text {
+        font-size: 1rem;
+    }
+
+    /* Shows table - stack on mobile */
+    .shows-table {
+        font-size: 0.8rem;
+    }
+
+    .shows-table td {
+        display: block;
+        text-align: center;
+        padding: 5px;
+        border-bottom: none;
+    }
+
+    .shows-table tr {
+        display: block;
+        margin-bottom: 20px;
+        border-bottom: 2px solid black;
+        padding-bottom: 10px;
+    }
+
+    /* Social links - full width on mobile */
+    .social-links {
+        grid-template-columns: 1fr;
+    }
+
+    .social-button {
+        padding: 12px;
+    }
+}

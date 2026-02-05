@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Stripe JS SDK -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <title>Product Name | Love Banana</title>
+</head>
+
+<body>
+
+    <!-- Return Home Logo -->
+    <a href="index.html" class="return-home-link">
+        <img src="images/returnhomguy2.png" alt="Return Home" class="return-home-logo">
+    </a>
+
+    <!-- Header Navigation -->
+    <div class="header-container">
+        <nav class="nav-grid">
+            <a href="merch.html" class="nav-item"><img src="images/merch.png" alt="Merch"></a>
+            <a href="shows.html" class="nav-item"><img src="images/shows.png" alt="Shows"></a>
+            <a href="links.html" class="nav-item"><img src="images/links.png" alt="Links"></a>
+            <a href="gallery.html" class="nav-item"><img src="images/gallery.png" alt="Gallery"></a>
+        </nav>
+    </div>
+
+    <!-- Product Page Container -->
+    <div class="product-page">
+
+        <!-- LEFT COLUMN: Product Details & Visuals -->
+        <div class="product-left-bordered">
+            <!-- EDIT: Product Title & Subtitle -->
+            <h1 class="product-title">INSERT PRODUCT NAME</h1>
+            <p class="product-subtitle">INSERT SUBTITLE / MATERIAL</p>
+
+            <!-- EDIT: Main Image Path -->
+            <img id="main-product-image" src="images/INSERT_MAIN_IMAGE.png" alt="Product Main" class="product-main-img">
+
+            <!-- Thumbnails / Variations -->
+            <div class="lightbox-thumbnails">
+                <!-- EDIT: Add your variation images here -->
+                <img src="images/INSERT_MAIN_IMAGE.png" onclick="changeImage(this)" class="product-thumb active"
+                    alt="Main">
+                <img src="images/INSERT_VARIATION_1.png" onclick="changeImage(this)" class="product-thumb" alt="Var 1">
+                <!-- Add more <img> tags as needed -->
+            </div>
+
+            <!-- EDIT: Description -->
+            <div class="product-description">
+                <p>Insert detailed product description here.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Secure Checkout -->
+        <div class="product-right">
+
+            <div class="product-logo">
+                <img src="images/Love Banana Logo.png" alt="Logo" class="home-logo">
+            </div>
+
+            <div class="checkout-form-container">
+                <!-- EDIT: Base Price (Update data-price attribute and text) -->
+                <p class="merch-price" id="base-price" data-price="20">$20.00 AUD</p>
+
+                <form id="payment-form">
+
+                    <!-- EDIT: Product Options (Size/Color/Etc) -->
+                    <div class="form-group">
+                        <label for="size">Size:</label>
+                        <select id="size" name="size" required>
+                            <option value="S">Small</option>
+                            <option value="M" selected>Medium</option>
+                            <option value="L">Large</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="color">Variation:</label>
+                        <select id="color" name="color">
+                            <option value="Standard">Standard</option>
+                        </select>
+                    </div>
+
+                    <hr style="border: 1px solid black; margin: 20px 0;">
+
+                    <!-- Shipping Section (Standard for all products) -->
+                    <div class="shipping-section">
+                        <p class="shipping-prompt">Enter details for shipping:</p>
+
+                        <div id="shipping-form">
+                            <input type="text" id="name" placeholder="Full Name" required>
+                            <input type="email" id="email" placeholder="Email Address" required>
+                            <input type="text" id="address" placeholder="Street Address" required>
+                            <input type="text" id="city" placeholder="City / Suburb" required>
+                            <input type="text" id="postcode" placeholder="Postal / Zip Code" required>
+
+                            <select id="country" onchange="calculateShipping()" required>
+                                <option value="" disabled selected>Select Country</option>
+                                <option value="AU">Australia ($10.00)</option>
+                                <option value="INT">International ($25.00)</option>
+                            </select>
+                        </div>
+
+                        <div class="total-price">
+                            Total: <span id="total-display">$20.00 AUD</span>
+                        </div>
+
+                        <button type="submit" class="buy-button">Proceed to Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Image Gallery Logic
+        function changeImage(element) {
+            document.getElementById('main-product-image').src = element.src;
+            document.querySelectorAll('.product-thumb').forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // 2. Shipping Calculation Logic
+        // EDIT: Update this base price to match the product price
+        const basePrice = 20.00;
+
+        function calculateShipping() {
+            const country = document.getElementById('country').value;
+            let shippingCost = 0;
+
+            if (country === 'AU') { shippingCost = 10.00; }
+            else if (country === 'INT') { shippingCost = 25.00; }
+
+            const total = basePrice + shippingCost;
+            document.getElementById('total-display').textContent = '$' + total.toFixed(2) + ' AUD';
+        }
+
+        // 3. Stripe Checkout Placeholder
+        const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx'); // Replace with your Public Key
+
+        document.getElementById('payment-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            // Add Stripe checkout redirection logic here
+            alert("Redirecting to Stripe Checkout... (Placeholder)");
+        });
+    </script>
+
+</body>
+
+</html>
