@@ -1275,15 +1275,28 @@ body {
 /* Mobile: Landing video overflows from left edge */
 @media screen and (max-width: 768px) {
 
-    /* Full viewport layout for homepage */
+    /* Full viewport layout for homepage - lock and center */
+    html,
     body {
         min-height: 100vh;
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     /* 2x2 Navigation Grid */
     .header-container {
         padding: 20px 10px;
         flex-shrink: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .nav-grid {
@@ -1309,17 +1322,17 @@ body {
     /* Video fills bottom portion */
     .video-hero-container {
         margin-top: 20px;
-        overflow: visible;
+        overflow: hidden;
         justify-content: center;
         flex-shrink: 0;
+        width: 100%;
+        display: flex;
     }
 
     .landing-video {
         width: 140%;
         max-width: none;
         height: auto;
-        margin-left: -20%;
-        margin-right: -20%;
     }
 }
 
@@ -1337,8 +1350,6 @@ body {
 
     .landing-video {
         width: 160%;
-        margin-left: -30%;
-        margin-right: -30%;
     }
 
     /* Links page: Fullscreen spinning video */
@@ -1363,8 +1374,19 @@ body {
     }
 }
 
-/* Landscape orientation - stack nav and video vertically */
+/* Landscape orientation - stack nav and video horizontally */
 @media screen and (max-width: 900px) and (orientation: landscape) {
+
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    .header-container {
+        width: 100%;
+        justify-content: center;
+    }
+
     .nav-grid {
         display: flex;
         flex-wrap: nowrap;
@@ -1381,12 +1403,12 @@ body {
 
     .video-hero-container {
         margin-top: 10px;
+        width: 100%;
+        justify-content: center;
     }
 
     .landing-video {
-        width: 80%;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
+        width: 60%;
+        max-width: 350px;
     }
 }
