@@ -578,7 +578,7 @@ body {
     /* Silver Frame Border */
     border: 50px solid transparent;
     /* Space for the frame */
-    border-image-source: url('images/silver-frame.png');
+    border-image-source: url('images/silver-frame.webp');
     border-image-slice: 15% fill;
     /* Slices the frame, 'fill' keeps center if needed (usually typically not for frames on images unless transparent center) */
     border-image-repeat: stretch;
