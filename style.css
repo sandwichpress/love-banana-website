@@ -85,12 +85,32 @@ body {
     justify-content: center;
     align-items: center;
     margin-top: -160px;
+    position: relative;
+    /* Added for absolute positioning of children */
 }
 
 .landing-video {
     width: 100%;
     max-width: 1400px;
     height: auto;
+}
+
+.red-nose-link {
+    position: absolute;
+    /* Adjusted based on user feedback: Nose is to the left */
+    top: 44%;
+    left: 41%;
+    transform: translate(-50%, -50%);
+    /* Center it on the coordinates */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* circular clickable area */
+
+    /* Invisible but clickable */
+    background-color: transparent;
+    z-index: 20;
+    cursor: pointer;
 }
 
 /* 4. Links & Video Diary Styling */
@@ -812,56 +832,115 @@ body {
 }
 
 /* 9. Mobile Responsiveness */
+
+/* Tablet - 768px and below */
 @media screen and (max-width: 768px) {
 
-    /* Navigation */
+    /* Navigation - scale down and center */
     .nav-grid {
         gap: 5px;
+        padding: 0 10px;
     }
 
     .nav-item {
-        min-width: 120px;
-        max-width: 200px;
+        min-width: 80px;
+        max-width: 140px;
     }
 
-    /* Return home logo */
+    .nav-item img[alt="Merch"] {
+        transform: translateY(2px);
+    }
+
+    .nav-item img[alt="Shows"] {
+        transform: translateY(3px);
+    }
+
+    .nav-item img[alt="Links"] {
+        transform: scale(0.9) translateY(6px);
+    }
+
+    /* Return home logo - smaller on tablets */
+    .return-home-link {
+        right: 20px;
+        top: 15px;
+    }
+
     .return-home-logo {
         width: 80px;
     }
 
+    /* Video Hero - reduce negative margin */
+    .video-hero-container {
+        margin-top: -80px;
+    }
+
+    .landing-video {
+        max-width: 100%;
+    }
+
+    /* Red nose link - scale position for smaller screens */
+    .red-nose-link {
+        width: 25px;
+        height: 25px;
+    }
+
     /* Gallery */
     .gallery-container {
-        padding: 20px;
+        width: 95%;
+        padding: 20px 10px;
     }
 
-    .gallery-grid {
-        justify-content: center;
-        gap: 30px;
+    .gallery-img-large {
+        border-width: 30px;
     }
 
-    .gallery-item {
-        width: 100%;
-        max-width: 280px;
+    .gallery-title-large {
+        font-size: 1.5rem;
     }
 
-    .gallery-img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1;
+    .gallery-vertical-list {
+        gap: 50px;
     }
 
     /* Merch */
     .merch-container {
-        padding: 20px;
+        width: 95%;
+        padding: 20px 15px;
     }
 
     .merch-grid {
         gap: 30px;
+        justify-content: center;
+    }
+
+    .merch-item {
+        width: 280px;
+    }
+
+    /* Lightbox - better for tablets */
+    .lightbox-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .lightbox-image {
+        max-width: 400px;
+        max-height: 400px;
+    }
+
+    .lightbox-main {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .lightbox-nav {
+        padding: 10px 15px;
     }
 
     /* Shows */
     .shows-container {
-        padding: 20px;
+        width: 95%;
+        padding: 20px 15px;
     }
 
     .page-title {
@@ -869,72 +948,408 @@ body {
         letter-spacing: 3px;
     }
 
-    .shows-table td {
-        padding: 15px 5px;
-        font-size: 0.9rem;
+    /* Links */
+    .links-wrapper {
+        width: 95%;
+        padding: 0 10px;
     }
 
-    /* Links */
     .social-links {
         grid-template-columns: 1fr;
         gap: 15px;
+        max-width: 100%;
+    }
+
+    .social-button {
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .spotify-embed iframe {
+        height: 300px;
     }
 
     /* Product page */
     .product-page {
         flex-direction: column;
         padding: 20px;
+        gap: 30px;
+    }
+
+    .product-left-bordered {
+        padding: 20px;
+    }
+
+    .product-title {
+        font-size: 1.5rem;
+    }
+
+    .product-logo {
+        justify-content: center;
+        margin-bottom: 20px;
     }
 }
 
+/* Mobile - 480px and below */
 @media screen and (max-width: 480px) {
 
-    /* Navigation stacks on very small screens */
-    .nav-item {
-        min-width: 100px;
+    /* Navigation - smaller items, allow scroll */
+    .header-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .return-home-logo {
-        width: 60px;
+    .nav-grid {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 0 5px;
+        min-width: min-content;
+    }
+
+    .nav-item {
+        min-width: 70px;
+        max-width: 90px;
+        flex-shrink: 0;
+    }
+
+    .nav-item img[alt="Links"] {
+        transform: scale(0.85) translateY(8px);
+    }
+
+    /* Return home - corner positioning */
+    .return-home-link {
         top: 10px;
         right: 10px;
     }
 
-    /* Typography */
+    .return-home-logo {
+        width: 60px;
+    }
+
+    /* Video Hero - full width, less overlap */
+    .video-hero-container {
+        margin-top: -40px;
+    }
+
+    /* Red nose link - smaller on mobile */
+    .red-nose-link {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Typography adjustments */
     .page-title {
         font-size: 1.5rem;
         letter-spacing: 2px;
     }
 
+    .gallery-welcome,
     .contact-text {
         font-size: 1rem;
     }
 
-    /* Shows table - stack on mobile */
-    .shows-table {
-        font-size: 0.8rem;
+    /* Gallery - simpler frames */
+    .gallery-img-large {
+        border-width: 20px;
     }
 
-    .shows-table td {
+    .gallery-title-large {
+        font-size: 1.2rem;
+    }
+
+    .gallery-item-vertical {
+        padding-bottom: 40px;
+    }
+
+    .gallery-vertical-list {
+        gap: 40px;
+    }
+
+    /* Merch - single column */
+    .merch-container {
+        padding: 15px 10px;
+        border-width: 1px;
+    }
+
+    .merch-heading {
+        font-size: 1.5rem;
+    }
+
+    .merch-grid {
+        gap: 25px;
+    }
+
+    .merch-item {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .merch-image-box {
+        padding: 10px;
+    }
+
+    /* Lightbox - full screen on mobile */
+    .lightbox-content {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        padding: 15px;
+        border: none;
+    }
+
+    .lightbox-close {
+        font-size: 2.5rem;
+        top: 5px;
+        right: 10px;
+    }
+
+    .lightbox-image {
+        max-width: 100%;
+        max-height: 300px;
+    }
+
+    .lightbox-nav {
+        padding: 8px 12px;
+        font-size: 1.2rem;
+    }
+
+    .lightbox-thumb {
+        width: 50px;
+        height: 50px;
+    }
+
+    .lightbox-info h2 {
+        font-size: 1.2rem;
+    }
+
+    /* Shows - stacked layout */
+    .shows-container {
+        padding: 15px 10px;
+    }
+
+    .show-card.featured-card {
+        flex-direction: column;
+    }
+
+    .featured-image-container {
+        border-right: none;
+        border-bottom: 3px solid black;
+        max-width: 100%;
+        height: 200px;
+    }
+
+    .featured-details {
+        padding: 15px;
+    }
+
+    .show-title {
+        font-size: 1.3rem;
+    }
+
+    .show-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .ticket-button.large {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    .show-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .show-date-simple {
+        width: auto;
+    }
+
+    .ticket-button.small {
         display: block;
+        width: 100%;
         text-align: center;
-        padding: 5px;
-        border-bottom: none;
     }
 
-    .shows-table tr {
-        display: block;
-        margin-bottom: 20px;
-        border-bottom: 2px solid black;
-        padding-bottom: 10px;
-    }
-
-    /* Social links - full width on mobile */
-    .social-links {
-        grid-template-columns: 1fr;
+    /* Links - stacked and touch-friendly */
+    .links-wrapper {
+        margin-top: 20px;
+        padding: 0 5px;
     }
 
     .social-button {
+        padding: 18px;
+        font-size: 1.1rem;
+    }
+
+    .spotify-embed iframe {
+        height: 250px;
+    }
+
+    /* Product page - single column */
+    .product-page {
+        padding: 15px 10px;
+        gap: 20px;
+    }
+
+    .product-left-bordered {
+        padding: 15px;
+        border-width: 1px;
+    }
+
+    .product-title {
+        font-size: 1.3rem;
+    }
+
+    .product-main-img {
+        max-width: 100%;
+    }
+
+    .home-logo {
+        width: 80px;
+    }
+
+    #shipping-form input {
         padding: 12px;
+        font-size: 1rem;
+    }
+
+    .buy-button {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .form-group select {
+        padding: 10px;
+    }
+
+    .product-thumb {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Extra small phones - 360px and below */
+@media screen and (max-width: 360px) {
+    .nav-item {
+        min-width: 60px;
+        max-width: 75px;
+    }
+
+    .return-home-logo {
+        width: 50px;
+    }
+
+    .video-hero-container {
+        margin-top: -30px;
+    }
+
+    .gallery-img-large {
+        border-width: 15px;
+    }
+
+    .merch-item {
+        max-width: 260px;
+    }
+
+    .social-button {
+        padding: 15px;
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   MOBILE ENHANCEMENTS
+   ============================================ */
+
+/* Mobile: Landing video overflows from left edge */
+@media screen and (max-width: 768px) {
+
+    /* Full viewport layout for homepage */
+    body {
+        min-height: 100vh;
+    }
+
+    /* 2x2 Navigation Grid */
+    .header-container {
+        padding: 20px 10px;
+    }
+
+    .nav-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 350px;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .nav-item {
+        min-width: unset;
+        max-width: unset;
+        width: 100%;
+    }
+
+    .nav-item img {
+        transform: none !important;
+    }
+
+    /* Video fills bottom portion */
+    .video-hero-container {
+        margin-top: 20px;
+        overflow: visible;
+        justify-content: center;
+    }
+
+    .landing-video {
+        width: 140%;
+        max-width: none;
+        height: auto;
+        margin-left: -20%;
+        margin-right: -20%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .nav-grid {
+        gap: 8px;
+        max-width: 300px;
+        padding: 10px 0;
+    }
+
+    .video-hero-container {
+        margin-top: 10px;
+        padding: 0;
+    }
+
+    .landing-video {
+        width: 160%;
+        margin-left: -30%;
+        margin-right: -30%;
+    }
+
+    /* Links page: Fullscreen spinning video */
+    .video-container {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        margin-bottom: 30px;
+    }
+
+    .links-video {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
+
+    /* Adjust links wrapper for fullscreen video */
+    .links-wrapper {
+        overflow-x: hidden;
     }
 }
