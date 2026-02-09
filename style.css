@@ -21,6 +21,14 @@ body {
 .return-home-logo {
     width: 120px;
     height: auto;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover glow effect for return home logo - lights up around the graphic */
+.return-home-link:hover .return-home-logo {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 15px rgba(100, 100, 100, 0.3));
+    transform: scale(1.02);
+    cursor: pointer;
 }
 
 /* 2. Header Navigation */
@@ -1404,11 +1412,16 @@ body {
     .video-hero-container {
         margin-top: 10px;
         width: 100%;
-        justify-content: center;
+        justify-content: flex-end;
+        /* Align to right so character comes from left */
+        overflow: hidden;
+        /* Cut off the overflowing left portion */
     }
 
     .landing-video {
-        width: 60%;
-        max-width: 350px;
+        width: 100%;
+        max-width: none;
+        /* Position video so it aligns to right edge, character enters from left */
+        transform: translateX(-15%);
     }
 }
