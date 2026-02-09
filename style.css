@@ -1266,6 +1266,12 @@ body {
    MOBILE ENHANCEMENTS
    ============================================ */
 
+/* Remove tap highlight on mobile nav items */
+.nav-item {
+    -webkit-tap-highlight-color: transparent;
+    background: transparent;
+}
+
 /* Mobile: Landing video overflows from left edge */
 @media screen and (max-width: 768px) {
 
@@ -1277,6 +1283,7 @@ body {
     /* 2x2 Navigation Grid */
     .header-container {
         padding: 20px 10px;
+        flex-shrink: 0;
     }
 
     .nav-grid {
@@ -1292,6 +1299,7 @@ body {
         min-width: unset;
         max-width: unset;
         width: 100%;
+        background: transparent;
     }
 
     .nav-item img {
@@ -1303,6 +1311,7 @@ body {
         margin-top: 20px;
         overflow: visible;
         justify-content: center;
+        flex-shrink: 0;
     }
 
     .landing-video {
@@ -1351,5 +1360,33 @@ body {
     /* Adjust links wrapper for fullscreen video */
     .links-wrapper {
         overflow-x: hidden;
+    }
+}
+
+/* Landscape orientation - stack nav and video vertically */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    .nav-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 5px;
+        max-width: 100%;
+    }
+
+    .nav-item {
+        min-width: 80px;
+        max-width: 120px;
+        flex: 0 1 auto;
+    }
+
+    .video-hero-container {
+        margin-top: 10px;
+    }
+
+    .landing-video {
+        width: 80%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
