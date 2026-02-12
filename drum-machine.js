@@ -706,5 +706,19 @@
                 // (they'll be re-evaluated at the next loop start)
             });
         });
+
+        // ── Page dots: update active dot on swipe ──
+        var pagesContainer = document.querySelector('.dm-pages-container');
+        var pageDots = document.querySelectorAll('.dm-dot');
+        if (pagesContainer && pageDots.length > 0) {
+            pagesContainer.addEventListener('scroll', function () {
+                var scrollLeft = pagesContainer.scrollLeft;
+                var pageWidth = pagesContainer.offsetWidth;
+                var currentPage = Math.round(scrollLeft / pageWidth);
+                pageDots.forEach(function (dot, i) {
+                    dot.classList.toggle('active', i === currentPage);
+                });
+            });
+        }
     });
 })();

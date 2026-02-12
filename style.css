@@ -1849,3 +1849,187 @@ body {
         font-size: 0.5rem;
     }
 }
+
+/* ═══════════════════════════════════════════
+   Swipe Pages — Default (desktop / portrait)
+   Pages are invisible wrappers; everything stacks normally.
+   ═══════════════════════════════════════════ */
+.dm-pages-container {
+    display: contents;
+    /* invisible wrapper on desktop */
+}
+
+.dm-page {
+    display: contents;
+    /* invisible wrapper on desktop */
+}
+
+/* Hide page hints and dots on desktop / portrait */
+.dm-page-hint,
+.dm-page-dots {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════
+   Swipe Pages — Mobile Landscape
+   ═══════════════════════════════════════════ */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+
+    .drum-machine-page {
+        overflow: hidden;
+        height: 100vh;
+        height: 100dvh;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Hide home logo in landscape to save space */
+    .return-home-link {
+        display: none;
+    }
+
+    /* Container becomes horizontal scroll-snap viewport */
+    .dm-pages-container {
+        display: flex;
+        flex-direction: row;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    /* Hide scrollbar */
+    .dm-pages-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .dm-pages-container {
+        scrollbar-width: none;
+    }
+
+    /* Each page: exactly one viewport */
+    .dm-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 100vw;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 8px 4px;
+    }
+
+    /* Sequencer wrapper fills the page */
+    .dm-page .sequencer-wrapper {
+        gap: 6px;
+        width: 96%;
+        max-width: none;
+    }
+
+    /* Make grid cells shorter in landscape */
+    .dm-page-drums .sequencer-grid {
+        gap: 2px;
+    }
+
+    .dm-page-drums .step-cell {
+        min-height: 18px;
+    }
+
+    .dm-page-drums .row-label img {
+        max-height: 22px;
+    }
+
+    /* Smaller transport in landscape */
+    .dm-page-drums .transport-bar {
+        gap: 8px;
+    }
+
+    .dm-page-drums .transport-btn {
+        padding: 6px 14px;
+        font-size: 0.7rem;
+    }
+
+    /* Synth page layout */
+    .dm-page-synth .stylophone-section {
+        gap: 6px;
+    }
+
+    .dm-page-synth .layer-controls {
+        gap: 3px;
+    }
+
+    .dm-page-synth .piano-keys {
+        margin-top: 6px;
+    }
+
+    .dm-page-synth .white-key {
+        width: 36px;
+        height: 55px;
+        font-size: 0.55rem;
+    }
+
+    .dm-page-synth .black-key {
+        width: 24px;
+        height: 38px;
+        font-size: 0.45rem;
+    }
+
+    /* Page hint labels */
+    .dm-page-hint {
+        display: block;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.6rem;
+        font-weight: bold;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 4px 8px;
+        position: absolute;
+    }
+
+    .dm-page-hint-right {
+        bottom: 6px;
+        right: 12px;
+    }
+
+    .dm-page-hint-left {
+        top: 6px;
+        left: 12px;
+    }
+
+    .dm-page {
+        position: relative;
+    }
+
+    /* Page dots */
+    .dm-page-dots {
+        display: flex;
+        gap: 8px;
+        position: fixed;
+        bottom: 6px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+    }
+
+    .dm-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+        border: 1px solid #999;
+        transition: background 0.2s;
+    }
+
+    .dm-dot.active {
+        background: #333;
+    }
+}
