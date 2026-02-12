@@ -25,9 +25,10 @@ body {
 }
 
 /* Hover glow effect for return home logo - lights up around the graphic */
-/* :active state added for mobile touch support */
+/* :active and .touched states added for mobile touch support */
 .return-home-link:hover .return-home-logo,
-.return-home-link:active .return-home-logo {
+.return-home-link:active .return-home-logo,
+.return-home-link.touched .return-home-logo {
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 15px rgba(100, 100, 100, 0.3));
     transform: scale(1.02);
     cursor: pointer;
@@ -1426,5 +1427,425 @@ body {
         /* Larger than viewport so it gets cut off */
         max-width: none;
         flex-shrink: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   10. Secret Drum Machine (Step Sequencer)
+   ═══════════════════════════════════════════ */
+
+/* Full-viewport page, no scrolling */
+.drum-machine-page {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+
+.sequencer-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 98%;
+    max-width: 1200px;
+}
+
+/* Grid: 10 columns (1 label + 8 steps + 1 volume) × 4 rows */
+.sequencer-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(16, 1fr) 45px;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 3px;
+    width: 100%;
+}
+
+/* Row labels — nav panel images */
+.row-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.row-label img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Per-row volume input */
+.row-vol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vol-input {
+    width: 45px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid black;
+    background: white;
+    padding: 4px 2px;
+}
+
+/* Step cells */
+.step-cell {
+    min-height: 30px;
+    border: 2px solid black;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.08s ease;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.step-cell:hover {
+    background-color: #f0f0f0;
+}
+
+/* Active cell — shows the nav panel image (set via JS) */
+.step-cell.active {
+    background-color: white;
+}
+
+/* Playing highlight — current beat column */
+.step-cell.playing {
+    box-shadow: inset 0 0 0 3px #FFD700;
+    transform: scale(1.05);
+}
+
+/* Transport bar */
+.transport-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.transport-btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 30px;
+    background: black;
+    color: white;
+    border: 2px solid black;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.transport-btn:hover {
+    background: white;
+    color: black;
+}
+
+.transport-btn.active {
+    background: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* BPM control */
+.bpm-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#bpm-slider {
+    width: 120px;
+    accent-color: black;
+}
+
+#bpm-display {
+    min-width: 30px;
+    text-align: center;
+}
+
+/* ── Stylophone Synth ── */
+.stylophone-section {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.stylophone-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.wave-select {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 4px 8px;
+    border: 2px solid black;
+    background: white;
+    cursor: pointer;
+}
+
+.piano-keys {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+.piano-key {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid black;
+    transition: background-color 0.05s ease;
+}
+
+.white-key {
+    width: 48px;
+    height: 80px;
+    background: white;
+    color: black;
+}
+
+.black-key {
+    width: 34px;
+    height: 55px;
+    background: black;
+    color: white;
+    margin: 0 -8px;
+    z-index: 1;
+    border-color: #333;
+}
+
+.white-key.key-active {
+    background: #ccc;
+}
+
+.black-key.key-active {
+    background: #555;
+}
+
+/* Layer recording controls */
+.layer-controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 6px 0;
+}
+
+.layer-slot {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+/* Layer track bar (DAW-style timeline) */
+.layer-track {
+    position: relative;
+    width: 80px;
+    height: 12px;
+    border: 2px solid black;
+    background: #e0e0e0;
+    overflow: hidden;
+}
+
+.layer-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #333;
+    transition: none;
+}
+
+.layer-playhead {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: #FFD700;
+    z-index: 1;
+}
+
+/* Recording state — red progress fill */
+.layer-slot.recording .layer-progress {
+    background: #ff3333;
+}
+
+/* Has data — darker track background to show content */
+.layer-slot.has-data .layer-track {
+    background: #ccc;
+}
+
+.layer-rec-btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    background: white;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.layer-rec-btn.recording {
+    background: #ff3333;
+    color: white;
+    animation: rec-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes rec-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.layer-slot.has-data .layer-rec-btn:not(.recording) {
+    background: #333;
+    color: white;
+}
+
+.layer-clear-btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 5px 6px;
+    background: white;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.layer-clear-btn:hover {
+    background: #ff3333;
+    color: white;
+}
+
+.layer-mute-btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 5px 6px;
+    background: white;
+    color: black;
+    border: 2px solid black;
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: all 0.15s;
+}
+
+.layer-mute-btn:hover {
+    background: #e0e0e0;
+}
+
+.layer-mute-btn.muted {
+    background: #ff9900;
+    color: white;
+    border-color: #ff9900;
+}
+
+/* Armed recording — play button turns red */
+.transport-btn.armed {
+    background: #ff3333;
+    color: white;
+    border-color: #ff3333;
+    animation: rec-pulse 0.8s ease-in-out infinite;
+}
+
+/* ── Drum Machine Responsive ── */
+@media screen and (max-width: 768px) {
+    .sequencer-grid {
+        grid-template-columns: 50px repeat(16, 1fr) 35px;
+        gap: 2px;
+    }
+
+    .transport-btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .bpm-control {
+        font-size: 0.85rem;
+    }
+
+    #bpm-slider {
+        width: 80px;
+    }
+
+    .white-key {
+        width: 38px;
+        height: 65px;
+    }
+
+    .black-key {
+        width: 26px;
+        height: 45px;
+        margin: 0 -6px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sequencer-grid {
+        grid-template-columns: 35px repeat(16, 1fr) 30px;
+        gap: 1px;
+    }
+
+    .step-cell {
+        border-width: 1px;
+    }
+
+    .transport-bar {
+        gap: 10px;
+    }
+
+    .transport-btn {
+        padding: 8px 15px;
+        font-size: 0.75rem;
+    }
+
+    .white-key {
+        width: 28px;
+        height: 50px;
+        font-size: 0.55rem;
+    }
+
+    .black-key {
+        width: 20px;
+        height: 35px;
+        margin: 0 -5px;
+        font-size: 0.5rem;
     }
 }

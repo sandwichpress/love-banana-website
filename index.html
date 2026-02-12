@@ -37,6 +37,20 @@
     </div>
 
 
+    <!-- Secret Drum Machine trigger -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var video = document.querySelector('.landing-video');
+            if (video) {
+                video.style.cursor = 'pointer';
+                video.addEventListener('click', function () {
+                    window.location.href = 'drum-machine.html';
+                });
+            }
+        });
+    </script>
+
+    <script src="nav-sounds.js"></script>
 </body>
 
 </html>
