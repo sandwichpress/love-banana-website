@@ -1601,10 +1601,12 @@ body {
 .piano-keys {
     display: flex;
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
+    width: 96%;
+    max-width: 1200px;
 }
 
 .piano-key {
@@ -1613,26 +1615,29 @@ body {
     justify-content: center;
     padding-bottom: 6px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: bold;
     cursor: pointer;
     border: 2px solid black;
     transition: background-color 0.05s ease;
+    box-sizing: border-box;
 }
 
 .white-key {
-    width: 48px;
-    height: 80px;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100px;
     background: white;
     color: black;
 }
 
 .black-key {
-    width: 34px;
-    height: 55px;
+    flex: 0 0 3%;
+    min-width: 0;
+    height: 65px;
     background: black;
     color: white;
-    margin: 0 -8px;
+    margin: 0 -1.5%;
     z-index: 1;
     border-color: #333;
 }
@@ -1806,14 +1811,11 @@ body {
     }
 
     .white-key {
-        width: 38px;
-        height: 65px;
+        height: 75px;
     }
 
     .black-key {
-        width: 26px;
-        height: 45px;
-        margin: 0 -6px;
+        height: 50px;
     }
 }
 
@@ -1832,21 +1834,18 @@ body {
     }
 
     .transport-btn {
-        padding: 8px 15px;
+        padding: 8px 12px;
         font-size: 0.75rem;
     }
 
     .white-key {
-        width: 28px;
-        height: 50px;
-        font-size: 0.55rem;
+        height: 60px;
+        font-size: 0.5rem;
     }
 
     .black-key {
-        width: 20px;
-        height: 35px;
-        margin: 0 -5px;
-        font-size: 0.5rem;
+        height: 40px;
+        font-size: 0.45rem;
     }
 }
 
@@ -1967,19 +1966,18 @@ body {
     }
 
     .dm-page-synth .piano-keys {
-        margin-top: 6px;
+        margin-top: 4px;
+        width: 98%;
     }
 
     .dm-page-synth .white-key {
-        width: 36px;
-        height: 55px;
-        font-size: 0.55rem;
+        height: 70px;
+        font-size: 0.5rem;
     }
 
     .dm-page-synth .black-key {
-        width: 24px;
-        height: 38px;
-        font-size: 0.45rem;
+        height: 46px;
+        font-size: 0.4rem;
     }
 
     /* Page hint labels */
