@@ -874,25 +874,87 @@
         const bpmSlider = document.getElementById('bpm-slider');
         const bpmDisplay = document.getElementById('bpm-display');
 
-        // ── Drum Grid ──
-        cells.forEach(cell => {
-            cell.addEventListener('click', function () {
-                initAudio();
-                const row = parseInt(this.dataset.row);
-                const col = parseInt(this.dataset.col);
-                const img = this.dataset.img;
-                grid[row][col] = !grid[row][col];
+        // ── Drum Grid — Drag to fill ──
+        var dragActive = false;
+        var dragRow = -1;
+        var dragState = false; // true = turning on, false = turning off
+        var dragVisited = {};  // track which cells we've already toggled
 
-                if (grid[row][col]) {
-                    this.classList.add('active');
-                    if (img) this.style.backgroundImage = 'url(' + img + ')';
-                    if (audioCtx && buffers[row]) playSample(row, 0);
-                } else {
-                    this.classList.remove('active');
-                    this.style.backgroundImage = '';
-                }
+        function applyDragToCell(cell) {
+            var row = parseInt(cell.dataset.row);
+            var col = parseInt(cell.dataset.col);
+            var img = cell.dataset.img;
+            var key = row + '_' + col;
+
+            // Only affect cells in the same row and not already visited
+            if (row !== dragRow || dragVisited[key]) return;
+            dragVisited[key] = true;
+
+            grid[row][col] = dragState;
+            if (dragState) {
+                cell.classList.add('active');
+                if (img) cell.style.backgroundImage = 'url(' + img + ')';
+                if (audioCtx && buffers[row]) playSample(row, 0);
+            } else {
+                cell.classList.remove('active');
+                cell.style.backgroundImage = '';
+            }
+        }
+
+        function getCellFromPoint(x, y) {
+            var el = document.elementFromPoint(x, y);
+            if (el && el.classList.contains('step-cell')) return el;
+            return null;
+        }
+
+        cells.forEach(function (cell) {
+            // Prevent default touch scrolling on cells
+            cell.style.touchAction = 'none';
+
+            cell.addEventListener('mousedown', function (e) {
+                e.preventDefault();
+                initAudio();
+                var row = parseInt(this.dataset.row);
+                var col = parseInt(this.dataset.col);
+                dragActive = true;
+                dragRow = row;
+                dragState = !grid[row][col]; // toggle: if off turn on, if on turn off
+                dragVisited = {};
+                applyDragToCell(this);
             });
+
+            cell.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                initAudio();
+                var row = parseInt(this.dataset.row);
+                var col = parseInt(this.dataset.col);
+                dragActive = true;
+                dragRow = row;
+                dragState = !grid[row][col];
+                dragVisited = {};
+                applyDragToCell(this);
+            }, { passive: false });
         });
+
+        // Mouse drag across cells
+        document.addEventListener('mousemove', function (e) {
+            if (!dragActive) return;
+            var cell = getCellFromPoint(e.clientX, e.clientY);
+            if (cell) applyDragToCell(cell);
+        });
+
+        // Touch drag across cells
+        document.addEventListener('touchmove', function (e) {
+            if (!dragActive) return;
+            e.preventDefault();
+            var touch = e.touches[0];
+            var cell = getCellFromPoint(touch.clientX, touch.clientY);
+            if (cell) applyDragToCell(cell);
+        }, { passive: false });
+
+        // End drag
+        document.addEventListener('mouseup', function () { dragActive = false; });
+        document.addEventListener('touchend', function () { dragActive = false; });
 
         // ── Global Transport ──
         playBtn.addEventListener('click', function () {

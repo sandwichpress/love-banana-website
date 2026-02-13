@@ -2379,6 +2379,8 @@ body {
         height: calc(100vh - 64px);
         height: calc(100dvh - 64px);
         margin-top: 28px;
+        padding-top: 0;
+        flex: none;
     }
 
     /* Hide scrollbar */
@@ -2390,26 +2392,29 @@ body {
         scrollbar-width: none;
     }
 
-    /* Each page: all visible for swipe, override display:none */
-    .dm-page {
+    /* Each page: all visible for swipe, override desktop styles */
+    .dm-page,
+    .dm-page.active {
         display: flex !important;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex: 0 0 100vw;
-        width: 100vw;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        flex: 0 0 100vw !important;
+        width: 100vw !important;
+        min-height: auto !important;
         height: calc(100vh - 64px);
         height: calc(100dvh - 64px);
         scroll-snap-align: start;
         scroll-snap-stop: always;
-        overflow: hidden;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
         box-sizing: border-box;
         padding: 8px 4px;
     }
 
     /* Sequencer wrapper fills the page */
     .dm-page .sequencer-wrapper {
-        gap: 6px;
+        gap: 4px;
         width: 96%;
         max-width: none;
     }
@@ -2420,11 +2425,11 @@ body {
     }
 
     .dm-page-drums .step-cell {
-        min-height: 18px;
+        min-height: 14px;
     }
 
     .dm-page-drums .row-label img {
-        max-height: 22px;
+        max-height: 18px;
     }
 
     /* Synth page layout */
@@ -2451,9 +2456,11 @@ body {
         font-size: 0.4rem;
     }
 
-    /* Sampler page in landscape */
+    /* Sampler page in landscape — 2 rows of 8 instead of 4×4 */
     .dm-page-sampler .pad-grid {
-        max-width: 280px;
+        grid-template-columns: repeat(8, 1fr);
+        max-width: 90%;
+        aspect-ratio: auto;
         gap: 3px;
     }
 
