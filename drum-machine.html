@@ -10,16 +10,27 @@
 
 <body class="drum-machine-page">
 
-    <!-- Return Home -->
-    <a href="index.html" class="return-home-link">
-        <img src="images/returnhomguy2.png" alt="Return Home" class="return-home-logo">
-    </a>
+
+
+    <!-- Hidden file input for sample loading -->
+    <input type="file" id="sample-file-input" accept="audio/*" style="display:none">
+
+    <!-- Tab Navigation Bar -->
+    <nav class="dm-tabs" id="dm-tabs">
+        <button class="dm-tab active" data-page="0">DRUMS</button>
+        <button class="dm-tab" data-page="1">SYNTH</button>
+        <button class="dm-tab" data-page="2">PADS</button>
+        <button class="dm-tab" data-page="3">SEQ</button>
+        <a href="index.html" class="dm-home-link">
+            <img src="images/returnhomguy2.png" alt="Home" class="dm-home-logo">
+        </a>
+    </nav>
 
     <!-- Swipe Pages Container -->
     <div class="dm-pages-container">
 
         <!-- PAGE 1: Drum Sequencer -->
-        <div class="dm-page dm-page-drums">
+        <div class="dm-page dm-page-drums active">
             <div class="sequencer-wrapper">
                 <div class="sequencer-grid">
                     <!-- Row: Merch (Clap) -->
@@ -114,26 +125,14 @@
                     <div class="row-vol"><input type="number" class="vol-input" data-row="3" min="0" max="100"
                             value="80"></div>
                 </div>
-
-                <!-- Transport Controls -->
-                <div class="transport-bar">
-                    <button id="play-btn" class="transport-btn">▶ PLAY</button>
-                    <button id="stop-btn" class="transport-btn">■ STOP</button>
-                    <div class="bpm-control">
-                        <label for="bpm-slider">BPM:</label>
-                        <input type="range" id="bpm-slider" min="60" max="200" value="120">
-                        <span id="bpm-display">120</span>
-                    </div>
-                </div>
+                <button id="clear-drums-btn" class="dm-action-btn">CLEAR DRUMS</button>
             </div>
 
-            <!-- Page indicator: swipe right for synth -->
             <div class="dm-page-hint dm-page-hint-right">SYNTH →</div>
         </div>
 
         <!-- PAGE 2: Synth / Keyboard -->
         <div class="dm-page dm-page-synth">
-            <!-- Page indicator: swipe left for drums -->
             <div class="dm-page-hint dm-page-hint-left">← DRUMS</div>
 
             <div class="sequencer-wrapper">
@@ -220,14 +219,172 @@
                     </div>
                 </div>
             </div>
+
+            <div class="dm-page-hint dm-page-hint-right">PADS →</div>
         </div>
 
+        <!-- PAGE 3: Sample Trigger Pads (SP-404 style) -->
+        <div class="dm-page dm-page-sampler">
+            <div class="dm-page-hint dm-page-hint-left">← SYNTH</div>
+
+            <div class="sequencer-wrapper">
+                <div class="sampler-section">
+                    <!-- Sample controls -->
+                    <div class="sampler-toolbar">
+                        <button id="load-sample-btn" class="transport-btn sampler-btn">📁 LOAD</button>
+                        <button id="mic-sample-btn" class="transport-btn sampler-btn">🎤 REC</button>
+                        <button id="clear-sample-btn" class="transport-btn sampler-btn">✕ CLEAR</button>
+                        <div class="sampler-controls-row">
+                            <button id="reverse-toggle" class="transport-btn sampler-btn sampler-toggle">⟲ REV</button>
+                            <div class="bpm-control">
+                                <label for="pad-pitch">PITCH:</label>
+                                <input type="range" id="pad-pitch" min="-12" max="12" value="0" class="pitch-slider">
+                                <span id="pad-pitch-display">0</span>
+                            </div>
+                            <div class="bpm-control">
+                                <label for="pad-vol">VOL:</label>
+                                <input type="number" id="pad-vol" class="vol-input" min="0" max="100" value="80">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4x4 Pad Grid -->
+                    <div class="pad-grid" id="pad-grid">
+                        <div class="sample-pad" data-pad="0"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">1</span></div>
+                        <div class="sample-pad" data-pad="1"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">2</span></div>
+                        <div class="sample-pad" data-pad="2"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">3</span></div>
+                        <div class="sample-pad" data-pad="3"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">4</span></div>
+                        <div class="sample-pad" data-pad="4"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">5</span></div>
+                        <div class="sample-pad" data-pad="5"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">6</span></div>
+                        <div class="sample-pad" data-pad="6"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">7</span></div>
+                        <div class="sample-pad" data-pad="7"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">8</span></div>
+                        <div class="sample-pad" data-pad="8"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">9</span></div>
+                        <div class="sample-pad" data-pad="9"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">10</span></div>
+                        <div class="sample-pad" data-pad="10"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">11</span></div>
+                        <div class="sample-pad" data-pad="11"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">12</span></div>
+                        <div class="sample-pad" data-pad="12"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">13</span></div>
+                        <div class="sample-pad" data-pad="13"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">14</span></div>
+                        <div class="sample-pad" data-pad="14"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">15</span></div>
+                        <div class="sample-pad" data-pad="15"><canvas class="pad-waveform" width="80"
+                                height="40"></canvas><span class="pad-label">16</span></div>
+                    </div>
+
+                    <!-- Sample name display -->
+                    <div id="sample-name" class="sample-name">NO SAMPLE LOADED</div>
+                </div>
+            </div>
+
+            <div class="dm-page-hint dm-page-hint-right">SEQ →</div>
+        </div>
+
+        <!-- PAGE 4: Sample Sequencer -->
+        <div class="dm-page dm-page-sample-seq">
+            <div class="dm-page-hint dm-page-hint-left">← PADS</div>
+
+            <div class="sequencer-wrapper">
+                <div class="sample-seq-section">
+                    <div class="sample-seq-title">SAMPLE SEQUENCER</div>
+
+                    <!-- 16-step chop sequencer -->
+                    <div class="sample-seq-grid" id="sample-seq-grid">
+                        <div class="seq-step" data-step="0"><span class="seq-step-num">1</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="1"><span class="seq-step-num">2</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="2"><span class="seq-step-num">3</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="3"><span class="seq-step-num">4</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="4"><span class="seq-step-num">5</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="5"><span class="seq-step-num">6</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="6"><span class="seq-step-num">7</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="7"><span class="seq-step-num">8</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="8"><span class="seq-step-num">9</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="9"><span class="seq-step-num">10</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="10"><span class="seq-step-num">11</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="11"><span class="seq-step-num">12</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="12"><span class="seq-step-num">13</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="13"><span class="seq-step-num">14</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="14"><span class="seq-step-num">15</span><span
+                                class="seq-chop-label">—</span></div>
+                        <div class="seq-step" data-step="15"><span class="seq-step-num">16</span><span
+                                class="seq-chop-label">—</span></div>
+                    </div>
+
+                    <!-- Chop selector overlay (hidden by default) -->
+                    <div id="chop-selector" class="chop-selector hidden">
+                        <div class="chop-selector-inner">
+                            <div class="chop-option" data-chop="0">—</div>
+                            <div class="chop-option" data-chop="1">1</div>
+                            <div class="chop-option" data-chop="2">2</div>
+                            <div class="chop-option" data-chop="3">3</div>
+                            <div class="chop-option" data-chop="4">4</div>
+                            <div class="chop-option" data-chop="5">5</div>
+                            <div class="chop-option" data-chop="6">6</div>
+                            <div class="chop-option" data-chop="7">7</div>
+                            <div class="chop-option" data-chop="8">8</div>
+                            <div class="chop-option" data-chop="9">9</div>
+                            <div class="chop-option" data-chop="10">10</div>
+                            <div class="chop-option" data-chop="11">11</div>
+                            <div class="chop-option" data-chop="12">12</div>
+                            <div class="chop-option" data-chop="13">13</div>
+                            <div class="chop-option" data-chop="14">14</div>
+                            <div class="chop-option" data-chop="15">15</div>
+                            <div class="chop-option" data-chop="16">16</div>
+                        </div>
+                    </div>
+
+                    <button id="clear-seq-btn" class="transport-btn sampler-btn">✕ CLEAR SEQ</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Global Transport Bar (visible on all pages) -->
+    <div class="global-transport" id="global-transport">
+        <button id="play-btn" class="transport-btn gt-btn">▶</button>
+        <button id="stop-btn" class="transport-btn gt-btn">■</button>
+        <button id="rec-btn" class="transport-btn gt-btn gt-rec">⏺</button>
+        <div class="bpm-control gt-bpm">
+            <label for="bpm-slider">BPM</label>
+            <input type="range" id="bpm-slider" min="60" max="200" value="120">
+            <span id="bpm-display">120</span>
+        </div>
+        <button id="save-btn" class="transport-btn gt-btn gt-save">💾</button>
     </div>
 
     <!-- Page dots indicator -->
     <div class="dm-page-dots">
         <span class="dm-dot active" data-page="0"></span>
         <span class="dm-dot" data-page="1"></span>
+        <span class="dm-dot" data-page="2"></span>
+        <span class="dm-dot" data-page="3"></span>
     </div>
 
     <script src="drum-machine.js"></script>

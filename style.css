@@ -1441,7 +1441,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: white;
 }
 
@@ -1522,12 +1522,22 @@ body {
     transform: scale(1.05);
 }
 
-/* Transport bar */
-.transport-bar {
+/* ═══════════════════════════════════════════
+   Global Transport Bar
+   ═══════════════════════════════════════════ */
+.global-transport {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.92);
+    border-top: 2px solid #333;
+    z-index: 200;
     flex-wrap: wrap;
 }
 
@@ -1535,12 +1545,12 @@ body {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1rem;
     font-weight: bold;
-    padding: 12px 30px;
-    background: black;
+    padding: 8px 16px;
+    background: #222;
     color: white;
-    border: 2px solid black;
+    border: 2px solid #555;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
 }
 
 .transport-btn:hover {
@@ -1548,29 +1558,89 @@ body {
     color: black;
 }
 
+.transport-btn:active {
+    transform: scale(0.95);
+}
+
 .transport-btn.active {
     background: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    border-color: #FFD700;
+}
+
+.gt-btn {
+    padding: 8px 14px;
+    min-width: 36px;
+    text-align: center;
+}
+
+.gt-rec {
+    color: #ff3333;
+}
+
+.gt-rec.armed {
+    background: #ff3333;
+    color: white;
+    border-color: #ff3333;
+    animation: rec-pulse 0.8s ease-in-out infinite;
+}
+
+.gt-rec.recording {
+    background: #ff3333;
+    color: white;
+    border-color: #ff6666;
+    animation: rec-pulse 0.5s ease-in-out infinite;
+}
+
+.gt-save {
+    color: #FFD700;
+}
+
+.gt-save:hover {
+    background: #FFD700;
+    color: black;
 }
 
 /* BPM control */
 .bpm-control {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.85rem;
+}
+
+.gt-bpm {
+    color: white;
+}
+
+.gt-bpm label {
+    color: #999;
+    font-size: 0.7rem;
 }
 
 #bpm-slider {
-    width: 120px;
-    accent-color: black;
+    width: 80px;
+    accent-color: #FFD700;
 }
 
 #bpm-display {
-    min-width: 30px;
+    min-width: 25px;
     text-align: center;
+    color: #FFD700;
+}
+
+/* Sampler buttons */
+.sampler-btn {
+    font-size: 0.8rem;
+    padding: 8px 14px;
+}
+
+.sampler-toggle.active {
+    background: #FFD700;
+    color: black;
+    border-color: #FFD700;
 }
 
 /* ── Stylophone Synth ── */
@@ -1790,6 +1860,259 @@ body {
     animation: rec-pulse 0.8s ease-in-out infinite;
 }
 
+/* ═══════════════════════════════════════════
+   11. Sample Pad Grid (SP-404 style)
+   ═══════════════════════════════════════════ */
+.sampler-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.sampler-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.sampler-controls-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.pitch-slider {
+    width: 80px;
+    accent-color: black;
+}
+
+.pad-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.sample-pad {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid black;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: all 0.08s ease;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.sample-pad:hover {
+    background: #e8e8e8;
+}
+
+.sample-pad:active,
+.sample-pad.pad-active {
+    background: black;
+    color: white;
+    transform: scale(0.95);
+}
+
+.sample-pad.pad-active .pad-label {
+    color: white;
+}
+
+.sample-pad.pad-active .pad-waveform {
+    filter: invert(1);
+}
+
+@keyframes pad-flash {
+    0% {
+        background: #FFD700;
+    }
+
+    100% {
+        background: #f5f5f5;
+    }
+}
+
+.sample-pad.pad-flash {
+    animation: pad-flash 0.15s ease-out;
+}
+
+.sample-pad.has-sample {
+    background: #e0e0e0;
+}
+
+.pad-waveform {
+    width: 80%;
+    height: 40%;
+    display: block;
+}
+
+.pad-label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #999;
+    margin-top: 2px;
+}
+
+.sample-name {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #666;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   12. Sample Sequencer
+   ═══════════════════════════════════════════ */
+.sample-seq-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.sample-seq-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: black;
+}
+
+.sample-seq-grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 2px;
+    width: 100%;
+}
+
+.seq-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    background: white;
+    cursor: pointer;
+    min-height: 50px;
+    transition: all 0.1s;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+.seq-step:hover {
+    background: #f0f0f0;
+}
+
+.seq-step.has-chop {
+    background: #e0e0e0;
+}
+
+.seq-step.seq-swiping {
+    border-color: #FFD700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    transform: scale(1.08);
+    z-index: 10;
+}
+
+.seq-step.seq-playing {
+    box-shadow: inset 0 0 0 3px #FFD700;
+    transform: scale(1.05);
+}
+
+.seq-step-num {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.55rem;
+    color: #bbb;
+    position: absolute;
+    top: 2px;
+    left: 3px;
+}
+
+.seq-chop-label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: black;
+}
+
+/* Chop selector overlay */
+.chop-selector {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+}
+
+.chop-selector.hidden {
+    display: none;
+}
+
+.chop-selector-inner {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+    background: black;
+    border: 3px solid #FFD700;
+    padding: 6px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.chop-option {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    padding: 8px 30px;
+    text-align: center;
+    border: 1px solid #333;
+    transition: all 0.05s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.chop-option.chop-hover {
+    background: #FFD700;
+    color: black;
+}
+
+.chop-option.chop-selected {
+    background: white;
+    color: black;
+}
+
 /* ── Drum Machine Responsive ── */
 @media screen and (max-width: 768px) {
     .sequencer-grid {
@@ -1798,16 +2121,16 @@ body {
     }
 
     .transport-btn {
-        padding: 10px 20px;
-        font-size: 0.85rem;
+        padding: 8px 12px;
+        font-size: 0.8rem;
     }
 
     .bpm-control {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 
     #bpm-slider {
-        width: 80px;
+        width: 60px;
     }
 
     .white-key {
@@ -1816,6 +2139,14 @@ body {
 
     .black-key {
         height: 50px;
+    }
+
+    .pad-grid {
+        max-width: 350px;
+    }
+
+    .seq-step {
+        min-height: 40px;
     }
 }
 
@@ -1829,13 +2160,14 @@ body {
         border-width: 1px;
     }
 
-    .transport-bar {
-        gap: 10px;
+    .transport-btn {
+        padding: 6px 10px;
+        font-size: 0.7rem;
     }
 
-    .transport-btn {
-        padding: 8px 12px;
-        font-size: 0.75rem;
+    .gt-btn {
+        padding: 6px 10px;
+        min-width: 30px;
     }
 
     .white-key {
@@ -1847,20 +2179,151 @@ body {
         height: 40px;
         font-size: 0.45rem;
     }
+
+    .pad-grid {
+        max-width: 300px;
+    }
+
+    .sample-pad {
+        border-width: 2px;
+    }
+
+    .seq-step {
+        min-height: 35px;
+    }
+
+    .seq-chop-label {
+        font-size: 0.7rem;
+    }
+
+    .sampler-btn {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+}
+
+/* Add bottom padding to drum machine page for global transport */
+.drum-machine-page {
+    padding-bottom: 50px;
+}
+
+/* ═══════════════════════════════════════════
+   Tab Navigation Bar
+   ═══════════════════════════════════════════ */
+.dm-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    border-bottom: 3px solid black;
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
+    box-sizing: border-box;
+}
+
+/* Home logo inside tab bar */
+.dm-home-link {
+    display: flex;
+    align-items: center;
+    padding: 4px 10px;
+    flex-shrink: 0;
+}
+
+.dm-home-logo {
+    width: 36px;
+    height: auto;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.dm-home-link:hover .dm-home-logo {
+    filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.8));
+    transform: scale(1.1);
+}
+
+.dm-tab {
+    flex: 1;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 12px 0;
+    border: none;
+    border-right: 2px solid black;
+    background: white;
+    color: #999;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+}
+
+.dm-tab:last-of-type {
+    border-right: none;
+}
+
+.dm-tab:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.dm-tab.active {
+    background: black;
+    color: white;
 }
 
 /* ═══════════════════════════════════════════
    Swipe Pages — Default (desktop / portrait)
-   Pages are invisible wrappers; everything stacks normally.
+   Only active page is visible.
    ═══════════════════════════════════════════ */
 .dm-pages-container {
-    display: contents;
-    /* invisible wrapper on desktop */
+    width: 100%;
+    flex: 1;
+    padding-top: 48px;
+    /* offset for fixed tab bar */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
 .dm-page {
-    display: contents;
-    /* invisible wrapper on desktop */
+    display: none;
+}
+
+.dm-page.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Action buttons (Clear Drums, etc) */
+.dm-action-btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 8px 24px;
+    margin-top: 10px;
+    border: 2px solid black;
+    background: white;
+    color: black;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+}
+
+.dm-action-btn:hover {
+    background: black;
+    color: white;
+}
+
+.dm-action-btn:active {
+    transform: scale(0.95);
 }
 
 /* Hide page hints and dots on desktop / portrait */
@@ -1883,8 +2346,24 @@ body {
     }
 
     /* Hide home logo in landscape to save space */
-    .return-home-link {
+    .dm-home-link {
         display: none;
+    }
+
+    /* Compact tabs in landscape */
+    .dm-tabs {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        border-bottom-width: 2px;
+    }
+
+    .dm-tab {
+        padding: 6px 0;
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
     }
 
     /* Container becomes horizontal scroll-snap viewport */
@@ -1896,8 +2375,10 @@ body {
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         width: 100vw;
-        height: 100vh;
-        height: 100dvh;
+        /* tab bar ~28px + transport bar ~36px */
+        height: calc(100vh - 64px);
+        height: calc(100dvh - 64px);
+        margin-top: 28px;
     }
 
     /* Hide scrollbar */
@@ -1909,16 +2390,16 @@ body {
         scrollbar-width: none;
     }
 
-    /* Each page: exactly one viewport */
+    /* Each page: all visible for swipe, override display:none */
     .dm-page {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         flex: 0 0 100vw;
         width: 100vw;
-        height: 100vh;
-        height: 100dvh;
+        height: calc(100vh - 64px);
+        height: calc(100dvh - 64px);
         scroll-snap-align: start;
         scroll-snap-stop: always;
         overflow: hidden;
@@ -1946,16 +2427,6 @@ body {
         max-height: 22px;
     }
 
-    /* Smaller transport in landscape */
-    .dm-page-drums .transport-bar {
-        gap: 8px;
-    }
-
-    .dm-page-drums .transport-btn {
-        padding: 6px 14px;
-        font-size: 0.7rem;
-    }
-
     /* Synth page layout */
     .dm-page-synth .stylophone-section {
         gap: 6px;
@@ -1978,6 +2449,53 @@ body {
     .dm-page-synth .black-key {
         height: 46px;
         font-size: 0.4rem;
+    }
+
+    /* Sampler page in landscape */
+    .dm-page-sampler .pad-grid {
+        max-width: 280px;
+        gap: 3px;
+    }
+
+    .dm-page-sampler .sample-pad {
+        border-width: 2px;
+    }
+
+    .dm-page-sampler .sampler-toolbar {
+        gap: 4px;
+    }
+
+    .dm-page-sampler .sampler-btn {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+    }
+
+    /* Sample sequencer in landscape */
+    .dm-page-sample-seq .seq-step {
+        min-height: 30px;
+    }
+
+    .dm-page-sample-seq .sample-seq-title {
+        font-size: 0.75rem;
+    }
+
+    /* Global transport in landscape */
+    .global-transport {
+        padding: 4px 8px;
+        gap: 6px;
+    }
+
+    .gt-btn {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+
+    #bpm-slider {
+        width: 60px;
+    }
+
+    .gt-bpm label {
+        font-size: 0.6rem;
     }
 
     /* Page hint labels */
@@ -2012,10 +2530,10 @@ body {
         display: flex;
         gap: 8px;
         position: fixed;
-        bottom: 6px;
+        bottom: 46px;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 100;
+        z-index: 201;
     }
 
     .dm-dot {
